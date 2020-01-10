@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -8,21 +9,21 @@ using MonoDesign.Core.Serialization;
 
 namespace MonoDesign.Core.Utilities {
 	public static class SerializeUtilities {
-		public static byte[] SerializeData(object obj) {
+		public static byte[] SerializeData(this IGameSerializable obj) {
 			var binaryFormatter = new BinaryFormatter {
-				SurrogateSelector = SerializeManager.GetSurrogateSelector()
+				SurrogateSelector = GetSurrogateSelector()
 			};
 			using (var memoryStream = new MemoryStream()) {
 				binaryFormatter.Serialize(memoryStream, obj);
 				return memoryStream.ToArray();
 			}
 		}
-		public static object DeserializeData(byte[] bytes) {
+		public static T DeserializeData<T>(this byte[] bytes) where T: IGameSerializable {
 			var binaryFormatter = new BinaryFormatter {
-				SurrogateSelector = SerializeManager.GetSurrogateSelector()
+				SurrogateSelector = GetSurrogateSelector()
 			};
 			using (var memoryStream = new MemoryStream(bytes)) {
-				return binaryFormatter.Deserialize(memoryStream);
+				return (T)binaryFormatter.Deserialize(memoryStream);
 			}
 		}
 		public static void Serialize<TSource, TProperty>(this SerializationInfo info, TSource obj,
@@ -53,6 +54,18 @@ namespace MonoDesign.Core.Utilities {
 				default:
 					throw new NotImplementedException(nameof(member));
 			}
+		}
+		public static SurrogateSelector GetSurrogateSelector() {
+			var surrogateSelector = new SurrogateSelector();
+			foreach (var type in GetSerializeTypes()) {
+				surrogateSelector.AddSurrogate(type, new StreamingContext(StreamingContextStates.All),
+					new SerializationSurrogate());
+			}
+			
+			return surrogateSelector;
+		}
+		private static IEnumerable<Type> GetSerializeTypes() {
+			return ReflectionUtilities.GetTypesWithAttribute<GameSerializableAttribute>();
 		}
 	}
 }
