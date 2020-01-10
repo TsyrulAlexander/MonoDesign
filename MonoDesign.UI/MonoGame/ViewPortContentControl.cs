@@ -29,8 +29,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoDesign.Core.VM;
 using MonoDesign.UI.Utilities;
 
-namespace MonoDesign.UI.MonoGameControls {
-	public sealed class MonoGameContentControl : ContentControl, IDisposable {
+namespace MonoDesign.UI.MonoGame {
+	public sealed class ViewPortContentControl : ContentControl, IDisposable {
 		private static readonly MonoGameGraphicsDeviceService _graphicsDeviceService =
 			new MonoGameGraphicsDeviceService();
 		private int _instanceCount;
@@ -43,7 +43,7 @@ namespace MonoDesign.UI.MonoGameControls {
 		private bool _isFirstLoad = true;
 		private bool _isInitialized;
 
-		public MonoGameContentControl() {
+		public ViewPortContentControl() {
 			if (DesignerProperties.GetIsInDesignMode(this))
 				return;
 
@@ -79,7 +79,7 @@ namespace MonoDesign.UI.MonoGameControls {
 			IsDisposed = true;
 		}
 
-		~MonoGameContentControl() {
+		~ViewPortContentControl() {
 			Dispose(false);
 		}
 

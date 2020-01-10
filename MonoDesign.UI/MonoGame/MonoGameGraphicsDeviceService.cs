@@ -4,7 +4,7 @@ using System.Windows.Interop;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
 
-namespace MonoDesign.UI.MonoGameControls {
+namespace MonoDesign.UI.MonoGame {
 	public class MonoGameGraphicsDeviceService : IGraphicsDeviceService, IDisposable {
 		public MonoGameGraphicsDeviceService() { }
 
