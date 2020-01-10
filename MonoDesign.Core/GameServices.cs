@@ -6,12 +6,20 @@
 			return (T) Instance.GetService(typeof(T));
 		}
 
-		public static void AddService<T>(T service) {
-			Instance.AddService(typeof(T), service);
+		public static void AddSingleton<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			Instance.AddSingleton<TService, TImplementation>(instance);
+			Instance.Build();
 		}
-
-		public static void RemoveService<T>() {
-			Instance.RemoveService(typeof(T));
+		public static void AddScoped<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			Instance.AddScoped<TService, TImplementation>(instance);
+			Instance.Build();
+		}
+		public static void AddTransient<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			Instance.AddTransient<TService, TImplementation>(instance);
+			Instance.Build();
 		}
 	}
 }

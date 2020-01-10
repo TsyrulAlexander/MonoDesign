@@ -1,36 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MonoDesign.Core {
 	public class ServiceProvider : IServiceProvider {
-		private readonly Dictionary<Type, object> _services;
-
+		private readonly ServiceCollection _services;
+		private Microsoft.Extensions.DependencyInjection.ServiceProvider _provider;
 		public ServiceProvider() {
-			_services = new Dictionary<Type, object>();
+			_services = new ServiceCollection();
 		}
 
-		public void AddService(Type type, object provider) {
-			_services.Add(type, provider);
+		public void AddSingleton<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			if (instance == null) {
+				_services.AddSingleton<TService, TImplementation>();
+			} else {
+				_services.AddSingleton<TService, TImplementation>(provider => instance);
+			}
 		}
-
-		public object GetService(Type type) {
-			if (_services.TryGetValue(type, out var service))
-				return service;
-
-			return null;
+		public void AddScoped<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			if (instance == null) {
+				_services.AddScoped<TService, TImplementation>();
+			} else {
+				_services.AddScoped<TService, TImplementation>(provider => instance);
+			}
 		}
-
-		public void RemoveService(Type type) {
-			_services.Remove(type);
-		}
-
-		public void AddService<T>(T service) {
-			AddService(typeof(T), service);
+		public void AddTransient<TService, TImplementation>(TImplementation instance = null) where TService : class
+			where TImplementation : class, TService {
+			if (instance == null) {
+				_services.AddTransient<TService, TImplementation>();
+			} else {
+				_services.AddTransient<TService, TImplementation>(provider => instance);
+			}
 		}
 
 		public T GetService<T>() where T : class {
-			var service = GetService(typeof(T));
-			return (T) service;
+			return _provider.GetService<T>();
 		}
+		public object GetService(Type serviceType) {
+			return _provider.GetService(serviceType);
+		}
+		public virtual void Build() {
+			_provider?.Dispose();
+			_provider = _services.BuildServiceProvider();
+		}
+		
 	}
 }
