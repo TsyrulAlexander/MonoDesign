@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" DataContext="{Binding TextureComponent, Source={StaticResource Manager}}">
     <Grid>
          <GroupBox Header="TextureContent">
@@ -11,8 +12,10 @@
                      <ColumnDefinition Width="*"/>
                      <ColumnDefinition Width="30"/>
                  </Grid.ColumnDefinitions>
-                 <TextBlock Text="{Binding Value.TextureName}"></TextBlock>
-                 <Button Grid.Column="1" Command="{Binding SelectTextureCommand}"></Button>
+                 <TextBlock Text="{Binding Value.TextureName}" Foreground="Black"></TextBlock>
+                 <Button Grid.Column="1" Command="{Binding SelectTextureCommand}" Padding="0">
+                     <materialDesign:PackIcon Kind="Add"  />
+                </Button>
              </Grid>
          </GroupBox>
     </Grid>

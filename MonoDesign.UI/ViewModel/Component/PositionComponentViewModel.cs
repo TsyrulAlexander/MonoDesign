@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.Xna.Framework;
-using MonoDesign.Core.Entity.Component;
+using MonoDesign.Component;
 using MonoDesign.Core.Utilities;
 using MonoDesign.UI.Component.Component;
 

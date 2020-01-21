@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoDesign.Core.Entity.Component;
-using MonoDesign.Core.Entity.Scene;
 using MonoDesign.Core.Serialization;
 
 namespace MonoDesign.Core.Entity.GameObject {

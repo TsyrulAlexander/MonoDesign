@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework.Graphics;
 using MonoDesign.Core.Annotations;
-using MonoDesign.Core.Entity.Component;
 using MonoDesign.Core.Entity.GameObject;
 using MonoDesign.Core.Entity.Scene;
 using MonoDesign.Core.File;
@@ -16,6 +16,7 @@ namespace MonoDesign.Engine
 		private readonly IProjectManager _projectManager;
 		private readonly ISceneManager _sceneManager;
 		private readonly IFileService _fileService;
+		private readonly IAssetManager _assetManager;
 		private Scene _currentScene;
 		private ProjectInfo _projectInfo;
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -35,10 +36,11 @@ namespace MonoDesign.Engine
 				OnPropertyChanged();
 			}
 		}
-		public DesignEngine(IProjectManager projectManager, ISceneManager sceneManager, IFileService fileService) {
+		public DesignEngine(IProjectManager projectManager, ISceneManager sceneManager, IFileService fileService, IAssetManager assetManager) {
 			_projectManager = projectManager;
 			_sceneManager = sceneManager;
 			_fileService = fileService;
+			_assetManager = assetManager;
 		}
 		public virtual void LoadProject(string path) {
 			ProjectInfo = _projectManager.Load(path);
@@ -70,13 +72,15 @@ namespace MonoDesign.Engine
 		public virtual void LoadScene(SceneLookup lookup) {
 			CurrentScene = _sceneManager.Load(ProjectInfo, lookup);
 		}
+
+		public Texture2D LoadTexture(string name) {
+			return _assetManager.LoadTexture(ProjectInfo, name);
+		}
 		public virtual void CreateGameObject() {
 			var gameObject = new GameObject {
 				Name = nameof(GameObject)
 			};
 			gameObject.Initialize();
-			gameObject.AddComponent(new PositionComponent());//todo
-			gameObject.AddComponent(new TextureComponent());//todo
 			CurrentScene.GameObjects.Add(gameObject);
 		}
 		[NotifyPropertyChangedInvocator]

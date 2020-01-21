@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
+using MonoDesign.Component.Attribute;
 using MonoDesign.Core.Entity.GameObject;
 using MonoDesign.Core.Serialization;
 using MonoDesign.Core.Utilities;
 
-namespace MonoDesign.Core.Entity.Component {
+namespace MonoDesign.Component {
 	[GameSerializable]
+	[Component("Position")]
 	public class PositionComponent : BaseComponent {
 		private Vector2 _initValue;
 		public Vector2 Position {

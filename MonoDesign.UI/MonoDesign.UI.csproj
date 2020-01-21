@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MonoDesign.Component\MonoDesign.Component.csproj" />
     <ProjectReference Include="..\MonoDesign.Core\MonoDesign.Core.csproj" />
     <ProjectReference Include="..\MonoDesign.Engine\MonoDesign.Engine.csproj" />
   </ItemGroup>

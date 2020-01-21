@@ -6,13 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding PositionComponent, Source={StaticResource Manager}}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Position" Foreground="Black"></TextBlock>
-        <Grid Grid.Row="1">
+    <GroupBox Header="Position">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*"/>
                 <ColumnDefinition Width="50*"/>
@@ -24,5 +19,5 @@
                 materialDesign:HintAssist.Hint="Y" Text="{Binding Y, UpdateSourceTrigger=PropertyChanged}" Foreground="Black">
             </TextBox>
         </Grid>
-    </Grid>
+    </GroupBox>
 </UserControl>

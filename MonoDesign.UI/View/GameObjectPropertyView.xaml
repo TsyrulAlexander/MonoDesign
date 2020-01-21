@@ -4,22 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:component="clr-namespace:MonoDesign.UI.View.Component"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              DataContext="{Binding GameObjectProperty, Source={StaticResource Manager}}">
-    <Grid>
-        <GroupBox>
-            <GroupBox.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="{Binding GameObject.Name}" />
-                </DataTemplate>
-            </GroupBox.HeaderTemplate>
-           <ListView ItemsSource="{Binding GameObject.Components}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <component:ComponentView Component="{Binding}"></component:ComponentView>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            </ListView>
-        </GroupBox>
-    </Grid>
+    <GroupBox>
+        <GroupBox.HeaderTemplate>
+            <DataTemplate>
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="{Binding GameObject.Name}" />
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+       <StackPanel>
+           <ListView ItemsSource="{Binding GameObject.Components}" >
+               <ListView.ItemContainerStyle>
+                   <Style TargetType="ListViewItem">
+                       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                       <Setter Property="Padding" Value="0" />
+                    </Style>
+               </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                   <DataTemplate>
+                        <component:ComponentView HorizontalAlignment="Stretch" Component="{Binding}"></component:ComponentView>
+                   </DataTemplate>
+               </ListView.ItemTemplate>
+           </ListView>
+           <Grid>
+               <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox materialDesign:HintAssist.Hint="Component"
+                    Grid.Column="0" ItemsSource="{Binding AllComponentList.Items}" SelectedItem="{Binding AllComponentList.CurrentItem}" DisplayMemberPath="Attribute.Caption" Margin="0 0 5 0"></ComboBox>
+                <Button Grid.Column="1" Padding="0" Command="{Binding AddComponentCommand}">
+                   <materialDesign:PackIcon Kind="Add"  />
+               </Button>
+            </Grid>
+        </StackPanel>
+    </GroupBox>
 </UserControl>

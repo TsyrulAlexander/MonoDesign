@@ -72,8 +72,7 @@ namespace MonoDesign.Core.Utilities {
 			return surrogateSelector;
 		}
 		private static IEnumerable<Type> GetSerializeTypes() {
-			var assemblies = ReflectionUtilities.GetAssemblies().Where(assembly =>
-				assembly.GetCustomAttribute<GameSerializableAssemblyAttribute>() != null);
+			var assemblies = ReflectionUtilities.GetAssemblies<GameSerializableAssemblyAttribute>();
 			return ReflectionUtilities.GetTypesWithAttribute<GameSerializableAttribute>(assemblies.ToArray());
 		}
 	}

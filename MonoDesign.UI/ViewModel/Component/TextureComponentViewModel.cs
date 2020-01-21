@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using MonoDesign.Core.Entity.Component;
+using MonoDesign.Component;
 using MonoDesign.Engine;
 using MonoDesign.Engine.Manager;
 using MonoDesign.UI.Component.Command;
@@ -21,13 +21,9 @@ namespace MonoDesign.UI.ViewModel.Component
 			SelectTextureCommand = new RelayCommand(SelectTextureExecute);
 		}
 		private void SelectTextureExecute() {
-			try {
-				var path = _dialogService.SelectFile("Content file|*.xnb");
-				var assetName = _assetManager.SaveTextureToAsset(_designEngine.ProjectInfo, path);
-				Value.Texture = _assetManager.LoadTexture(_designEngine.ProjectInfo, assetName);
-			} catch (Exception e) {
-				
-			}
+			var path = _dialogService.SelectFile("Content file|*.xnb");
+			var assetName = _assetManager.SaveTextureToAsset(_designEngine.ProjectInfo, path);
+			Value.TextureName = assetName;
 		}
 	}
 }

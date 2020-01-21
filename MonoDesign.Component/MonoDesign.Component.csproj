@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+	<ItemGroup>
+		<AssemblyAttribute Include="MonoDesign.Core.Serialization.GameSerializableAssemblyAttribute" />
+		<AssemblyAttribute Include="MonoDesign.Component.Attribute.ComponentAssemblyAttribute" />
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoDesign.Core\MonoDesign.Core.csproj" />
+    <ProjectReference Include="..\MonoDesign.Engine\MonoDesign.Engine.csproj" />
+    <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.4" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+  </ItemGroup>
+
+</Project>

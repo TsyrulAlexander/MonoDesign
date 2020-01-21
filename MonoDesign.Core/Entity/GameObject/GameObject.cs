@@ -150,7 +150,7 @@ namespace MonoDesign.Core.Entity.GameObject {
 				OnPropertyChanged();
 			}
 		}
-		public ObservableCollection<IGameObjectComponent> Components { get; set; } = new ObservableCollection<IGameObjectComponent>();
+		public ObservableCollection<IGameObjectComponent> Components { get; } = new ObservableCollection<IGameObjectComponent>();
 		public IEnumerable<IGameObjectComponent> GetComponents() {
 			return Components;
 		}

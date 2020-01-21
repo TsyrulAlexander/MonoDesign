@@ -1,4 +1,5 @@
-﻿using MonoDesign.Core.Entity.Component;
+﻿using MonoDesign.Component;
+using MonoDesign.Core.Entity.Component;
 
 namespace MonoDesign.UI.Component.Component
 {

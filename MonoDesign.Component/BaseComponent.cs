@@ -3,9 +3,10 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using MonoDesign.Core.Annotations;
+using MonoDesign.Core.Entity.Component;
 using MonoDesign.Core.Entity.GameObject;
 
-namespace MonoDesign.Core.Entity.Component {
+namespace MonoDesign.Component {
 	public abstract class BaseComponent : IGameObjectComponent {
 		protected virtual IGameObject GameObject { get; set; }
 		public virtual bool IsUpdatable { get; set; }

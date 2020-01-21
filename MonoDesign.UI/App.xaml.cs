@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.Xna.Framework.Graphics;
+using MonoDesign.Component.Extension;
 using MonoDesign.Core;
 using MonoDesign.Core.Extension;
 using MonoDesign.Engine.Extension;
@@ -17,8 +18,8 @@ namespace MonoDesign.UI {
 			GameServices.Instance.UseGameSerializer();
 			GameServices.Instance.UseFile();
 			GameServices.Instance.UseMessenger();
+			GameServices.Instance.UseComponentView();
 			GameServices.Instance.UseComponent();
-			
 			GameServices.Instance.AddSingleton<IGraphicsDeviceService, MonoGameGraphicsDeviceService>();
 			GameServices.Instance.AddSingleton<SpriteBatch, SpriteBatch>(provider => {
 				var service = (IGraphicsDeviceService) provider.GetService(typeof(IGraphicsDeviceService));

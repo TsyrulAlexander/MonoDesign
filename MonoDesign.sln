@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoDesign.Game", "MonoDesi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoDesign.Engine", "MonoDesign.Engine\MonoDesign.Engine.csproj", "{620A2BAD-93A8-4C3A-B622-6EED3EAF88A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Framework.DesktopGL", "..\..\Other\MonoGame-develop\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj", "{358C388C-DC26-4D74-BF37-866721E01664}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDesign.Component", "MonoDesign.Component\MonoDesign.Component.csproj", "{9F68F775-8823-4304-90C4-063E6DC6D860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{620A2BAD-93A8-4C3A-B622-6EED3EAF88A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{620A2BAD-93A8-4C3A-B622-6EED3EAF88A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{620A2BAD-93A8-4C3A-B622-6EED3EAF88A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{358C388C-DC26-4D74-BF37-866721E01664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{358C388C-DC26-4D74-BF37-866721E01664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{358C388C-DC26-4D74-BF37-866721E01664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{358C388C-DC26-4D74-BF37-866721E01664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F68F775-8823-4304-90C4-063E6DC6D860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F68F775-8823-4304-90C4-063E6DC6D860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F68F775-8823-4304-90C4-063E6DC6D860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F68F775-8823-4304-90C4-063E6DC6D860}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,7 +23,7 @@ namespace MonoDesign.UI.View.Component {
 			var view = GetView(component);
 			var viewModel = GetViewModel(view);
 			viewModel.SetValue(component);
-			componentView.ContentControl.Content = view;
+			componentView.Content = view;
 		}
 		private static ContentControl GetView(IGameObjectComponent component) {
 			var viewGenericType = typeof(IComponentView<>);

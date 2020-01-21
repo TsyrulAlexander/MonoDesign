@@ -1,27 +1,46 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework.Graphics;
+using MonoDesign.Component.Attribute;
+using MonoDesign.Core;
 using MonoDesign.Core.Entity.GameObject;
 using MonoDesign.Core.Serialization;
 using MonoDesign.Core.Utilities;
+using MonoDesign.Engine;
 
-namespace MonoDesign.Core.Entity.Component
+namespace MonoDesign.Component
 {
 	[GameSerializable]
+	[Component("Texture")]
 	public class TextureComponent : BaseComponent {
-		public string TextureName { get; set; }
+		private DesignEngine _designEngine;
+		private string _textureName;
+		public string TextureName {
+			get => _textureName;
+			set {
+				if (value == _textureName)
+					return;
+				_textureName = value;
+				LoadTexture();
+				OnPropertyChanged();
+			}
+		}
 		public Texture2D Texture {
 			get => GameObject.Texture;
-			set {
+			protected set {
 				if (Equals(value, GameObject.Texture))
 					return;
 				GameObject.Texture = value;
 				OnPropertyChanged();
 			}
 		}
+		public TextureComponent(DesignEngine designEngine) {
+			_designEngine = designEngine;
+		}
 		public override void Initialize(IGameObject gameObject) {
 			base.Initialize(gameObject);
 			gameObject.PropertyChanged += GameObjectOnPropertyChanged;
+			_designEngine = _designEngine ?? GameServices.GetService<DesignEngine>();
 		}
 		private void GameObjectOnPropertyChanged(object sender, PropertyChangedEventArgs e) {
 			if (e.PropertyName == nameof(GameObject.Texture)) {
@@ -41,6 +60,16 @@ namespace MonoDesign.Core.Entity.Component
 			info.Deserialize(item, component => component.IsUpdatable);
 			info.Deserialize(item, component => component.IsDrawable);
 			return base.Deserialize(item, info, context);
+		}
+		public override void OnDeserialized() {
+			base.OnDeserialized();
+			LoadTexture();
+		}
+		protected virtual void LoadTexture() {
+			if (GameObject == null) {
+				return;
+			}
+			Texture = _designEngine?.LoadTexture(_textureName);
 		}
 	}
 }
