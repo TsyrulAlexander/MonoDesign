@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Drawing;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoDesign.Core;
 using MonoDesign.Core.VM;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace MonoDesign.Game {
 	public class MyGame : Microsoft.Xna.Framework.Game {
-		GraphicsDeviceManager graphics;
+		readonly GraphicsDeviceManager _graphics;
 		private IMonoGameViewModel ViewModel { get; set; }
 		public MyGame() {
-			graphics = new GraphicsDeviceManager(this);
+			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
-			ViewModel = new MonoGameViewModel(graphics);
+			ViewModel = new MonoGameViewModel(_graphics);
 			this.Window.AllowUserResizing = true;
 			Window.ClientSizeChanged += WindowOnClientSizeChanged;
 		}
 		private void WindowOnClientSizeChanged(object sender, EventArgs e) {
-			ViewModel.SizeChanged(sender, new SizeChangedEventArgs(new Size(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)));
+			ViewModel.SizeChanged(sender, new SizeChangedEventArgs(new Size(GraphicsDevice.Viewport.Width,
+				GraphicsDevice.Viewport.Height)));
 		}
 		protected override void Initialize() {
 			ViewModel.Initialize();

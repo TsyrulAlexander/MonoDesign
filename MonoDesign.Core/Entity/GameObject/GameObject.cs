@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -12,8 +13,8 @@ using MonoDesign.Core.Utilities;
 
 namespace MonoDesign.Core.Entity.GameObject {
 	[GameSerializable]
-	public class GameObject : IGameObject {
-		public SpriteBatch SpriteBatch { get; }
+	public class GameObject : IGameObject, IGameDeserialized {
+		public SpriteBatch SpriteBatch { get; protected set; }
 		private Guid _id;
 		private string _name;
 		private Texture2D _texture;
@@ -135,6 +136,11 @@ namespace MonoDesign.Core.Entity.GameObject {
 				OnPropertyChanged();
 			}
 		}
+		public void Initialize() {
+			SpriteBatch = GameServices.GetService<SpriteBatch>();
+			Scale = Vector2.One;
+			Color = Color.White;
+		}
 		public bool IsUpdatable {
 			get => _isUpdatable;
 			set {
@@ -144,24 +150,26 @@ namespace MonoDesign.Core.Entity.GameObject {
 				OnPropertyChanged();
 			}
 		}
-		public List<IGameObjectComponent> Components { get; set; } = new List<IGameObjectComponent>();
-		public GameObject(SpriteBatch spriteBatch = null) {
-			SpriteBatch = spriteBatch ?? GameServices.GetService<SpriteBatch>();
-		}
+		public ObservableCollection<IGameObjectComponent> Components { get; set; } = new ObservableCollection<IGameObjectComponent>();
 		public IEnumerable<IGameObjectComponent> GetComponents() {
 			return Components;
 		}
 		public void AddComponent(IGameObjectComponent component) {
 			Components.Add(component);
+			component.Initialize(this);
 		}
 		public void RemoveComponent(IGameObjectComponent component) {
 			Components.Remove(component);
 		}
 		public void Update(GameTime gameTime) {
-			Components.ForEach(component => component.Update(gameTime));
+			foreach (var component in Components) {
+				component.Update(gameTime);
+			}
 		}
 		public void Draw(GameTime gameTime) {
-			Components.ForEach(component => component.Draw(gameTime));
+			foreach (var component in Components) {
+				component.Draw(gameTime);
+			}
 			if (Texture == null) {
 				return;
 			}
@@ -172,12 +180,26 @@ namespace MonoDesign.Core.Entity.GameObject {
 			var item = (GameObject) obj;
 			info.Serialize(item, o => o.Id);
 			info.Serialize(item, o => o.Name);
+			info.Serialize(item, o => o.Components);
 		}
 		public object Deserialize(object obj, SerializationInfo info, StreamingContext context) {
 			var item = (GameObject) obj;
 			info.Deserialize(item, o => o.Id);
 			info.Deserialize(item, o => o.Name);
+			info.Deserialize(item, o => o.Components);
 			return item;
+		}
+		public virtual void OnSerialized() {
+			foreach (var component in Components) {
+				component.OnSerialized();
+			}
+		}
+		public virtual void OnDeserialized() {
+			SpriteBatch = GameServices.GetService<SpriteBatch>();
+			foreach (var component in Components) {
+				component.Initialize(this);
+				component.OnDeserialized();
+			}
 		}
 		public event PropertyChangedEventHandler PropertyChanged;
 		[NotifyPropertyChangedInvocator]

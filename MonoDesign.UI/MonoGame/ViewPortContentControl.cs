@@ -26,14 +26,14 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoDesign.Core;
 using MonoDesign.Core.VM;
 using MonoDesign.UI.Utilities;
 
 namespace MonoDesign.UI.MonoGame {
 	public sealed class ViewPortContentControl : ContentControl, IDisposable {
-		private static readonly MonoGameGraphicsDeviceService _graphicsDeviceService =
-			new MonoGameGraphicsDeviceService();
-		private int _instanceCount;
+		private readonly MonoGameGraphicsDeviceService _graphicsDeviceService;
+			private int _instanceCount;
 		private IMonoGameViewModel _viewModel;
 		private readonly GameTime _gameTime = new GameTime();
 		private readonly Stopwatch _stopwatch = new Stopwatch();
@@ -44,9 +44,9 @@ namespace MonoDesign.UI.MonoGame {
 		private bool _isInitialized;
 
 		public ViewPortContentControl() {
+			_graphicsDeviceService = (MonoGameGraphicsDeviceService)GameServices.GetService<IGraphicsDeviceService>();
 			if (DesignerProperties.GetIsInDesignMode(this))
 				return;
-
 			_instanceCount++;
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
@@ -58,7 +58,7 @@ namespace MonoDesign.UI.MonoGame {
 			SizeChanged += (sender, args) => _viewModel?.SizeChanged(sender, args.Cast());
 		}
 
-		public static GraphicsDevice GraphicsDevice => _graphicsDeviceService?.GraphicsDevice;
+		public GraphicsDevice GraphicsDevice => _graphicsDeviceService?.GraphicsDevice;
 
 		public bool IsDisposed { get; private set; }
 

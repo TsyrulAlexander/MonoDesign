@@ -8,29 +8,35 @@ namespace MonoDesign.Core {
 		public ServiceProvider() {
 			_services = new ServiceCollection();
 		}
-
-		public void AddSingleton<TService, TImplementation>(TImplementation instance = null) where TService : class
+		public void AddSingleton<TService>(TService instance = null) where TService : class {
+			if (instance == null) {
+				_services.AddSingleton<TService>();
+			} else {
+				_services.AddSingleton(provider => instance);
+			}
+		}
+		public void AddSingleton<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
 				_services.AddSingleton<TService, TImplementation>();
 			} else {
-				_services.AddSingleton<TService, TImplementation>(provider => instance);
+				_services.AddSingleton<TService, TImplementation>(instance);
 			}
 		}
-		public void AddScoped<TService, TImplementation>(TImplementation instance = null) where TService : class
+		public void AddScoped<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
 				_services.AddScoped<TService, TImplementation>();
 			} else {
-				_services.AddScoped<TService, TImplementation>(provider => instance);
+				_services.AddScoped<TService, TImplementation>(instance);
 			}
 		}
-		public void AddTransient<TService, TImplementation>(TImplementation instance = null) where TService : class
+		public void AddTransient<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
 				_services.AddTransient<TService, TImplementation>();
 			} else {
-				_services.AddTransient<TService, TImplementation>(provider => instance);
+				_services.AddTransient<TService, TImplementation>(instance);
 			}
 		}
 

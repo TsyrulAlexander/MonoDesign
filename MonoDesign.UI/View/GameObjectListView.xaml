@@ -3,15 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behavior="clr-namespace:MonoDesign.UI.Component.UI.Behavior"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" Width="250" DataContext="{Binding GameObjectList, Source={StaticResource Manager}}">
-    <Grid>
-        <ListBox ItemsSource="{Binding GameObjectList.Items}" SelectedItem="{Binding GameObjectList.CurrentItem}">
-            <ListBox.ItemTemplate>
+             d:DesignHeight="450" DataContext="{Binding GameObjectList, Source={StaticResource Manager}}">
+    <Grid x:Name="MainGrid">
+        <GroupBox
+            Header="GameObjects">
+            <GroupBox.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="14" Text="{Binding Path=GameObject.Name}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="GameObjects" />
+                        <Button Grid.Column="1" Padding="0" Command="{Binding DataContext.CreateGameObjectCommand, ElementName=MainGrid}">
+                            <materialDesign:PackIcon  Kind="Add"/>
+                        </Button>
+                    </Grid>
+
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </GroupBox.HeaderTemplate>
+            <ListBox  ItemsSource="{Binding GameObjectList.Items}" SelectedItem="{Binding GameObjectList.CurrentItem}">
+                <i:Interaction.Behaviors>
+                    <behavior:MultiSelectionBehavior SelectedItems="{Binding GameObjectList.SelectedItems}"/>
+                </i:Interaction.Behaviors>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="14" Text="{Binding Path=Name}" Foreground="Black"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
     </Grid>
 </UserControl>

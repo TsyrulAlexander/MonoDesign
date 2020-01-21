@@ -4,37 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:MonoDesign.UI" 
     xmlns:view="clr-namespace:MonoDesign.UI.View" 
-    xmlns:viewModel="clr-namespace:MonoDesign.UI.ViewModel" 
-    xmlns:monoGame="clr-namespace:MonoDesign.UI.MonoGame"
     mc:Ignorable="d"
     Title="MonoDesign.UI" 
     WindowStartupLocation="CenterScreen"
     Width="800"
     Height="480">
-    <Window.DataContext>
-        <viewModel:ViewPortViewModel />
-    </Window.DataContext>
-
-    <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top">
-            <Menu Height="25" VerticalAlignment="Top">
-                <MenuItem Header="File">
-                    <MenuItem Header="New Project" ></MenuItem>
-                    <MenuItem Header="Open Project" >
-                        <MenuItem Header="WinForms"></MenuItem>
-                        <MenuItem Header="WPF" ></MenuItem>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Exit" ></MenuItem>
-                </MenuItem>
-                <MenuItem Header="Edit" ></MenuItem>
-                <MenuItem Header="View" ></MenuItem>
-            </Menu>
-        </StackPanel>
-        <view:GameObjectListView DockPanel.Dock="Left"></view:GameObjectListView>
-        <StackPanel DockPanel.Dock="Right"></StackPanel>
-        <view:ViewPortView></view:ViewPortView>
-    </DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <view:CommandView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"></view:CommandView>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <view:SceneListView Grid.Row="0"></view:SceneListView>
+            <view:GameObjectListView Grid.Row="1"></view:GameObjectListView>
+        </Grid>
+        <view:GameObjectPropertyView Grid.Row="1" Grid.Column="2"></view:GameObjectPropertyView>
+        <view:ViewPortView Grid.Row="1" Grid.Column="1"></view:ViewPortView>
+    </Grid>
 </Window>

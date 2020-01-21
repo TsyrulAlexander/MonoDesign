@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using MonoDesign.Core.Entity;
 using MonoDesign.Core.Serialization;
 using MonoDesign.Core.Utilities;
 
-namespace MonoDesign.Core.Entity.Project {
+namespace MonoDesign.Engine.Project {
 	[GameSerializable]
 	public class SceneLookup : IGameSerializable, ILookup {
 		public Guid Id { get; set; }
@@ -19,7 +20,9 @@ namespace MonoDesign.Core.Entity.Project {
 			info.Deserialize(item, lookup => lookup.Name);
 			return item;
 		}
-		public static SceneLookup Create(Scene.Scene scene) {
+		public virtual void OnSerialized() { }
+		public virtual void OnDeserialized() { }
+		public static SceneLookup Create(Core.Entity.Scene.Scene scene) {
 			return new SceneLookup {
 				Id = scene.Id,
 				Name = scene.Name

@@ -1,0 +1,15 @@
+﻿<ui:ModalBoxView x:Class="MonoDesign.UI.View.Modal.CreateProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:property="clr-namespace:MonoDesign.UI.View.Property"
+             xmlns:ui="clr-namespace:MonoDesign.UI.Component.UI"
+             mc:Ignorable="d" DataContext="{Binding CreateProject, Source={StaticResource Manager}}"
+             Height="400" Width="350">
+    <StackPanel>
+        <property:StringPropertyControl Property="{Binding Name}"></property:StringPropertyControl>
+        <property:SelectItemControl Property="{Binding Directory}" OpenCommand="{Binding SelectDirectoryCommand}"></property:SelectItemControl>
+        <Button Command="{Binding CreateCommand}">Create</Button>
+    </StackPanel>
+</ui:ModalBoxView>

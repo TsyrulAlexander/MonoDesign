@@ -20,7 +20,6 @@ namespace MonoDesign.Core.VM {
 
 		public virtual void Initialize() {
 			GraphicsDeviceService = GraphicsDeviceService ?? GameServices.GetService<IGraphicsDeviceService>();
-			Content = new ContentManager(GameServices.Instance) {RootDirectory = "Content"};
 		}
 		public virtual void LoadContent() { }
 		public virtual void UnloadContent() { }

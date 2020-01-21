@@ -2,14 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoDesign.Core.VM
-{
-	public interface IMonoGameViewModel : IDisposable
-	{
-		IGraphicsDeviceService GraphicsDeviceService {
-			get; set;
-		}
-
+namespace MonoDesign.Core.VM {
+	public interface IMonoGameViewModel : IDisposable {
+		IGraphicsDeviceService GraphicsDeviceService { get; set; }
 		void Initialize();
 		void LoadContent();
 		void UnloadContent();
@@ -18,7 +13,6 @@ namespace MonoDesign.Core.VM
 		void OnActivated(object sender, EventArgs args);
 		void OnDeactivated(object sender, EventArgs args);
 		void OnExiting(object sender, EventArgs args);
-
 		void SizeChanged(object sender, SizeChangedEventArgs args);
 	}
 }

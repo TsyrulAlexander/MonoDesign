@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -9,21 +10,24 @@ using MonoDesign.Core.Serialization;
 
 namespace MonoDesign.Core.Utilities {
 	public static class SerializeUtilities {
-		public static byte[] SerializeData(this IGameSerializable obj) {
+		internal static byte[] SerializeData(this IGameSerializable obj) {
 			var binaryFormatter = new BinaryFormatter {
 				SurrogateSelector = GetSurrogateSelector()
 			};
 			using (var memoryStream = new MemoryStream()) {
 				binaryFormatter.Serialize(memoryStream, obj);
+				obj.OnSerialized();
 				return memoryStream.ToArray();
 			}
 		}
-		public static T DeserializeData<T>(this byte[] bytes) where T: IGameSerializable {
+		internal static T DeserializeData<T>(this byte[] bytes) where T: IGameSerializable {
 			var binaryFormatter = new BinaryFormatter {
 				SurrogateSelector = GetSurrogateSelector()
 			};
 			using (var memoryStream = new MemoryStream(bytes)) {
-				return (T)binaryFormatter.Deserialize(memoryStream);
+				var value = (T)binaryFormatter.Deserialize(memoryStream);
+				value.OnDeserialized();
+				return value;
 			}
 		}
 		public static void Serialize<TSource, TProperty>(this SerializationInfo info, TSource obj,
@@ -35,11 +39,15 @@ namespace MonoDesign.Core.Utilities {
 		}
 		public static void Deserialize<TSource, TProperty>(this SerializationInfo info, TSource obj,
 			Expression<Func<TSource, TProperty>> propertyFn) {
-			var type = typeof(TSource);
-			var property = ReflectionUtilities.GetPropertyInfo(propertyFn);
-			var propertyType = GetUnderlyingType(property);
-			var propertyValue = info.GetValue($"{type.Name}_{property.Name}", propertyType);
+			var propertyValue = GetValue(info, propertyFn, out var property);
 			ReflectionUtilities.SetPropertyValue(property, obj, propertyValue);
+		}
+		public static TProperty GetValue<TSource, TProperty>(this SerializationInfo info,
+			Expression<Func<TSource, TProperty>> propertyFn, out MemberInfo property) {
+			var type = typeof(TSource);
+			property = ReflectionUtilities.GetPropertyInfo(propertyFn);
+			var propertyType = GetUnderlyingType(property);
+			return (TProperty)info.GetValue($"{type.Name}_{property.Name}", propertyType);
 		}
 		public static Type GetUnderlyingType(this MemberInfo member) {
 			switch (member.MemberType) {
@@ -61,11 +69,12 @@ namespace MonoDesign.Core.Utilities {
 				surrogateSelector.AddSurrogate(type, new StreamingContext(StreamingContextStates.All),
 					new SerializationSurrogate());
 			}
-			
 			return surrogateSelector;
 		}
 		private static IEnumerable<Type> GetSerializeTypes() {
-			return ReflectionUtilities.GetTypesWithAttribute<GameSerializableAttribute>();
+			var assemblies = ReflectionUtilities.GetAssemblies().Where(assembly =>
+				assembly.GetCustomAttribute<GameSerializableAssemblyAttribute>() != null);
+			return ReflectionUtilities.GetTypesWithAttribute<GameSerializableAttribute>(assemblies.ToArray());
 		}
 	}
 }

@@ -1,33 +1,56 @@
-﻿using System.Collections.Generic;
-using MonoDesign.Core.Entity;
-using MonoDesign.Core.Entity.Scene;
+﻿using MonoDesign.Core.Entity.Scene;
+using MonoDesign.Core.File;
+using MonoDesign.Core.Serialization;
+using MonoDesign.Engine.Project;
 
 namespace MonoDesign.Engine.Manager {
-	public class SceneManager: IDataManager<Scene> {
-		public IEnumerable<Scene> GetItems() {
-			return new[] {
-				new Scene{
-					Name = "Test"
-				},
-			};
+	public class SceneManager: ISceneManager {
+		private readonly ISerializer _serializer;
+		private readonly IFileService _fileService;
+		private const string SceneFileName = "scene.info";
+		public SceneManager(ISerializer serializer, IFileService fileService) {
+			_serializer = serializer;
+			_fileService = fileService;
 		}
-		public void Save(Scene item) {
-			throw new System.NotImplementedException();
+		public void Save(ProjectInfo projectInfo, Scene item) {
+			SaveScene(projectInfo, item);
+
 		}
-		public void SaveAll() {
-			throw new System.NotImplementedException();
+		protected void SaveScene(ProjectInfo projectInfo, Scene item) {
+			var scenePath = GetSceneFilePath(projectInfo, SceneLookup.Create(item));
+			CreateIfNotExists(scenePath);
+			var bytes = _serializer.SerializeData(item);
+			_fileService.SaveToFile(bytes, scenePath);
 		}
-		public void Create(Scene item) {
-			throw new System.NotImplementedException();
+		public void Remove(ProjectInfo projectInfo, SceneLookup item) {
+			var sceneDirectory = GetSceneFolder(projectInfo, item);
+			_fileService.RemoveDirectory(sceneDirectory);
 		}
-		public void Remove(Scene item) {
-			throw new System.NotImplementedException();
+		public string GetSceneFolder(ProjectInfo projectInfo) {
+			var directory = _fileService.GetDirectory(projectInfo.Path);
+			var sceneFolder = EngineSetting.ScenesFolder;
+			return _fileService.CombinePath(directory, sceneFolder);
 		}
-		public void Reload() {
-			throw new System.NotImplementedException();
+		public Scene Load(ProjectInfo projectInfo, SceneLookup scene) {
+			var path = GetSceneFilePath(projectInfo, scene);
+			CreateIfNotExists(path);
+			var bytes = _fileService.ReadWithFile(path);
+			return _serializer.DeserializeData<Scene>(bytes);
 		}
-		public void Load() {
-			throw new System.NotImplementedException();
+		protected virtual void CreateIfNotExists(string path) {
+			var directory = _fileService.GetDirectory(path);
+			if (_fileService.Exists(path)) {
+				return;
+			}
+			_fileService.CreateDirectory(directory);
+		}
+		protected virtual string GetSceneFolder(ProjectInfo projectInfo, SceneLookup lookup) {
+			var scenesFolder = GetSceneFolder(projectInfo);
+			return _fileService.CombinePath(scenesFolder, lookup.Id.ToString());
+		}
+		protected virtual string GetSceneFilePath(ProjectInfo projectInfo, SceneLookup lookup) {
+			var sceneFolder = GetSceneFolder(projectInfo, lookup);
+			return _fileService.CombinePath(sceneFolder, SceneFileName);
 		}
 	}
 }

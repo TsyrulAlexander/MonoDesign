@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MonoDesign.Core.Serialization {
+	[AttributeUsage(AttributeTargets.Class)]
 	public class GameSerializableAttribute : Attribute {
 
 	}

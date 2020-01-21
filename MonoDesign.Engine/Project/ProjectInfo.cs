@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using System.Text;
+using MonoDesign.Core.Entity;
 using MonoDesign.Core.Serialization;
 using MonoDesign.Core.Utilities;
 
-namespace MonoDesign.Core.Entity.Project {
+namespace MonoDesign.Engine.Project {
 	[GameSerializable]
-	public class ProjectInfo : IGameSerializable, ILookup {
+	public class ProjectInfo : IGameSerializable {
 		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public SceneLookup[] Scenes { get; set; }
+		public string Name { get; internal set; }
+		public string Path { get; internal set; }
+		public ObservableCollection<SceneLookup> Scenes { get; set; } = new ObservableCollection<SceneLookup>();
 		public void Serialize(object obj, SerializationInfo info, StreamingContext context) {
 			var item = (ProjectInfo) obj;
 			info.Serialize(item, o => o.Id);
@@ -23,6 +25,16 @@ namespace MonoDesign.Core.Entity.Project {
 			info.Deserialize(item, o => o.Name);
 			info.Deserialize(item, o => o.Scenes);
 			return item;
+		}
+		public void OnSerialized() {
+			foreach (var sceneLookup in Scenes) {
+				sceneLookup.OnSerialized();
+			}
+		}
+		public void OnDeserialized() {
+			foreach (var sceneLookup in Scenes) {
+				sceneLookup.OnDeserialized();
+			}
 		}
 	}
 }

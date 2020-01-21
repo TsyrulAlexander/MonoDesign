@@ -3,12 +3,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
+	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.0.1" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.7.1.189" />
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.8" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,5 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MonoDesign.Core\MonoDesign.Core.csproj" />
     <ProjectReference Include="..\MonoDesign.Engine\MonoDesign.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>

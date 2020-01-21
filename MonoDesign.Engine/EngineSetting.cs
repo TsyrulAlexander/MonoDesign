@@ -3,8 +3,10 @@
 namespace MonoDesign.Engine
 {
 	public class EngineSetting {
-		public static string ProjectInfoPath => GetStringValue(nameof(ProjectInfoPath));
-		public static string SceneFormatPath => GetStringValue(nameof(SceneFormatPath));
+		public static string ProjectInfoFileName => GetStringValue(nameof(ProjectInfoFileName));
+		public static string ScenesFolder => GetStringValue(nameof(ScenesFolder));
+		public static string AssetsFolder => GetStringValue(nameof(AssetsFolder));
+
 		private static string GetStringValue(string key) {
 			var exeConfigPath = typeof(EngineSetting).Assembly.Location;
 			var element = ConfigurationManager.OpenExeConfiguration(exeConfigPath).AppSettings?.Settings[key];
