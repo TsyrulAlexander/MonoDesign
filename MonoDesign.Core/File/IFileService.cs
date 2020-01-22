@@ -11,5 +11,6 @@
 		void CopyFile(string source, string path);
 		string GetFileName(string path);
 		string GetExtension(string path);
+		bool GetIsDirectory(string path);
 	}
 }

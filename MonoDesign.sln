@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoDesign.Game", "MonoDesi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoDesign.Engine", "MonoDesign.Engine\MonoDesign.Engine.csproj", "{620A2BAD-93A8-4C3A-B622-6EED3EAF88A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDesign.Component", "MonoDesign.Component\MonoDesign.Component.csproj", "{9F68F775-8823-4304-90C4-063E6DC6D860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoDesign.Component", "MonoDesign.Component\MonoDesign.Component.csproj", "{9F68F775-8823-4304-90C4-063E6DC6D860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

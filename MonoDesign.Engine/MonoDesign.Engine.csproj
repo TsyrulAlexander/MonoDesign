@@ -3,8 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>D:\Programing\Repositories\MonoDesign\MonoDesign.Game\Lib\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
-		<AssemblyAttribute Include="MonoDesign.Core.Serialization.GameSerializableAssemblyAttribute"/>
+		<AssemblyAttribute Include="MonoDesign.Core.Serialization.GameSerializableAssemblyAttribute" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />

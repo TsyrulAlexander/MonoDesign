@@ -11,20 +11,17 @@ namespace MonoDesign.UI {
 	public partial class App : Application {
 		protected override void OnStartup(StartupEventArgs e) {
 			base.OnStartup(e);
-			GameServices.Instance.UseDataManager();
 			GameServices.Instance.UseViewModel();
 			GameServices.Instance.UseDialog();
 			GameServices.Instance.UseModal();
-			GameServices.Instance.UseGameSerializer();
-			GameServices.Instance.UseFile();
-			GameServices.Instance.UseMessenger();
 			GameServices.Instance.UseComponentView();
-			GameServices.Instance.UseComponent();
 			GameServices.Instance.AddSingleton<IGraphicsDeviceService, MonoGameGraphicsDeviceService>();
 			GameServices.Instance.AddSingleton<SpriteBatch, SpriteBatch>(provider => {
 				var service = (IGraphicsDeviceService) provider.GetService(typeof(IGraphicsDeviceService));
 				return new SpriteBatch(service.GraphicsDevice);
 			});
+			GameServices.Instance.UseComponent();
+			GameServices.Instance.UseDesignEngine();
 			GameServices.Instance.Build();
 		}
 	}

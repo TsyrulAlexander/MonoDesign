@@ -6,6 +6,7 @@ namespace MonoDesign.Engine
 		public static string ProjectInfoFileName => GetStringValue(nameof(ProjectInfoFileName));
 		public static string ScenesFolder => GetStringValue(nameof(ScenesFolder));
 		public static string AssetsFolder => GetStringValue(nameof(AssetsFolder));
+		public static string ProjectDebugBuildFolder => GetStringValue(nameof(ProjectDebugBuildFolder));
 
 		private static string GetStringValue(string key) {
 			var exeConfigPath = typeof(EngineSetting).Assembly.Location;

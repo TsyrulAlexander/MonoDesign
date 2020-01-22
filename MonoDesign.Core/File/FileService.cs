@@ -36,5 +36,9 @@ namespace MonoDesign.Core.File {
 		public string GetExtension(string path) {
 			return Path.GetExtension(path);
 		}
+		public bool GetIsDirectory(string path) {
+			var attributes = System.IO.File.GetAttributes(path);
+			return attributes.HasFlag(FileAttributes.Directory);
+		}
 	}
 }

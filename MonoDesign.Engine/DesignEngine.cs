@@ -6,6 +6,7 @@ using MonoDesign.Core.Annotations;
 using MonoDesign.Core.Entity.GameObject;
 using MonoDesign.Core.Entity.Scene;
 using MonoDesign.Core.File;
+using MonoDesign.Core.Process;
 using MonoDesign.Engine.Manager;
 using ProjectInfo = MonoDesign.Engine.Project.ProjectInfo;
 using SceneLookup = MonoDesign.Engine.Project.SceneLookup;
@@ -17,6 +18,7 @@ namespace MonoDesign.Engine
 		private readonly ISceneManager _sceneManager;
 		private readonly IFileService _fileService;
 		private readonly IAssetManager _assetManager;
+		private readonly IProcessService _processService;
 		private Scene _currentScene;
 		private ProjectInfo _projectInfo;
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -36,13 +38,18 @@ namespace MonoDesign.Engine
 				OnPropertyChanged();
 			}
 		}
-		public DesignEngine(IProjectManager projectManager, ISceneManager sceneManager, IFileService fileService, IAssetManager assetManager) {
+		public DesignEngine(IProjectManager projectManager, ISceneManager sceneManager,
+				IFileService fileService, IAssetManager assetManager, IProcessService processService) {
 			_projectManager = projectManager;
 			_sceneManager = sceneManager;
 			_fileService = fileService;
 			_assetManager = assetManager;
+			_processService = processService;
 		}
 		public virtual void LoadProject(string path) {
+			if (_fileService.GetIsDirectory(path)) {
+				path = _fileService.CombinePath(path, EngineSetting.ProjectInfoFileName);
+			}
 			ProjectInfo = _projectManager.Load(path);
 		}
 		public virtual void CreateProject(string directory, string name) {
@@ -86,6 +93,23 @@ namespace MonoDesign.Engine
 		[NotifyPropertyChangedInvocator]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		public void BuildProject() {
+			var projectDirectory = GetProjectDirectory();
+			_processService.StartProcess("cmd.exe", $"/C dotnet publish {ProjectInfo.Name}.csproj -c Debug -r win10-x64", false, projectDirectory);
+		}
+		public virtual string GetProjectBuildDirectory() {
+			var projectDirectory = GetProjectDirectory();
+			return _fileService.CombinePath(projectDirectory, EngineSetting.ProjectDebugBuildFolder);
+		}
+
+		public virtual string GetProjectDllPath() {
+			var buildDirectory = GetProjectBuildDirectory();
+			return _fileService.CombinePath(buildDirectory, $"{ProjectInfo.Name}.dll");
+		}
+		public virtual string GetProjectDirectory() {
+			var projectPath = ProjectInfo.Path;
+			return _fileService.GetDirectory(projectPath);
 		}
 	}
 }

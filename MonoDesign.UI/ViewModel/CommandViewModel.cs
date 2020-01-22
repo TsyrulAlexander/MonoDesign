@@ -12,12 +12,17 @@ namespace MonoDesign.UI.ViewModel {
 		public ICommand CreateProjectCommand { get; }
 		public ICommand OpenProjectCommand { get; }
 		public ICommand SaveProjectCommand { get; }
+		public ICommand BuildProjectCommand { get; }
 		public CommandViewModel(DesignEngine designEngine, IDialogService dialogService) {
 			_designEngine = designEngine;
 			_dialogService = dialogService;
 			CreateProjectCommand = new RelayCommand(CreateProjectExecute);
 			OpenProjectCommand = new RelayCommand(OpenProjectExecute);
 			SaveProjectCommand = new RelayCommand(SaveProjectExecute);
+			BuildProjectCommand = new RelayCommand(BuildProjectExecute);
+		}
+		private void BuildProjectExecute() {
+			_designEngine.BuildProject();
 		}
 		private void SaveProjectExecute() {
 			_designEngine.SaveProject();
@@ -43,6 +48,7 @@ namespace MonoDesign.UI.ViewModel {
 			_designEngine.SaveProject();
 			_designEngine.CreateScene();
 			_designEngine.SaveScene();
+			_designEngine.SaveProject();
 		} 
 	}
 }

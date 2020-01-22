@@ -15,6 +15,9 @@
             </MenuItem>
             <MenuItem Header="Edit" ></MenuItem>
             <MenuItem Header="View" ></MenuItem>
+            <MenuItem Header="Project" >
+                <MenuItem Header="Build" Command="{Binding BuildProjectCommand}"/>
+            </MenuItem>
         </Menu>
     </Grid>
 </UserControl>

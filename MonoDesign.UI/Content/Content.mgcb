@@ -25,3 +25,15 @@
 /processorParam:TextureFormat=Color
 /build:red_brick_state_1_left_side.png;red_brick_left.png
 
+#begin red_brick_state_1_right_side.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:red_brick_state_1_right_side.png;red_brick_right.png
+
