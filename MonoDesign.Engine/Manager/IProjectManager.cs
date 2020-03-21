@@ -5,5 +5,7 @@ namespace MonoDesign.Engine.Manager {
 		void Save(ProjectInfo projectInfo);
 		ProjectInfo Load(string path);
 		void Remove(ProjectInfo projectInfo);
+		void BuildProject(ProjectInfo info);
+		string GetProjectSolutionPath(ProjectInfo info);
 	}
 }

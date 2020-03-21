@@ -30,7 +30,7 @@ namespace MonoDesign.Engine.Manager {
 			return _fileService.CombinePath(contentFolder, TextureFolder);
 		}
 		public string GetContentFolder(ProjectInfo projectInfo) {
-			var directory = _fileService.GetDirectory(projectInfo.Path);
+			var directory = projectInfo.RootDirectory;
 			var assetsFolder = EngineSetting.AssetsFolder;
 			return _fileService.CombinePath(directory, assetsFolder);
 		}

@@ -13,6 +13,7 @@ namespace MonoDesign.UI.Extension {
 			provider.AddTransient<GameObjectPropertyViewModel, GameObjectPropertyViewModel>();
 			provider.AddTransient<PositionComponentViewModel, PositionComponentViewModel>();
 			provider.AddTransient<TextureComponentViewModel, TextureComponentViewModel>();
+			provider.AddTransient<ScriptComponentViewModel, ScriptComponentViewModel>();
 
 		}
 	}

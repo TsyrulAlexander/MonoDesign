@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoDesign.Component.Extension;
 using MonoDesign.Core;
+using MonoDesign.Engine.Extension;
 
 namespace MonoDesign.Engine
 {
@@ -46,6 +48,16 @@ namespace MonoDesign.Engine
 				DesignEngine.CurrentScene.GameObjects[index].Draw(gameTime);
 			}
 			SpriteBatch.End();
+		}
+		public virtual void ConfigureServices() {
+			GameServices.Instance.AddSingleton<IGraphicsDeviceService, GraphicsDeviceManager>(provider => new GraphicsDeviceManager(this));
+			GameServices.Instance.AddSingleton<SpriteBatch, SpriteBatch>(provider => {
+				var service = (IGraphicsDeviceService)provider.GetService(typeof(IGraphicsDeviceService));
+				return new SpriteBatch(service.GraphicsDevice);
+			});
+			GameServices.Instance.UseComponent();
+			GameServices.Instance.UseDesignEngine();
+			GameServices.Instance.Build();
 		}
 	}
 }

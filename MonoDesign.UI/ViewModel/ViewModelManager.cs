@@ -12,6 +12,7 @@ namespace MonoDesign.UI.ViewModel
 		public static GameObjectPropertyViewModel GameObjectProperty => CreateViewModel<GameObjectPropertyViewModel>();
 		public static PositionComponentViewModel PositionComponent => CreateViewModel<PositionComponentViewModel>();
 		public static TextureComponentViewModel TextureComponent => CreateViewModel<TextureComponentViewModel>();
+		public static ScriptComponentViewModel ScriptComponent => CreateViewModel<ScriptComponentViewModel>();
 		public static T CreateViewModel<T>() where T : Core.VM.ViewModel {
 			var viewModel = GameServices.GetService<T>();
 			viewModel.Initialize();

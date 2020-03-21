@@ -3,15 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <OutputPath>D:\Programing\Repositories\MonoDesign\MonoDesign.Game\Lib\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
+	<ItemGroup>
 		<AssemblyAttribute Include="MonoDesign.Core.Serialization.GameSerializableAssemblyAttribute" />
 	</ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="2.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
@@ -20,9 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="MonoDesign.Component">
+      <HintPath>..\MonoDesign.Game\Lib\MonoDesign.Component.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="MonoDesign.Engine.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)MonoDesign.Game\Lib\$(ProjectName).dll&quot;" />
+  </Target>
 
 </Project>

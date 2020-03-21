@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoDesign.Component.Extension;
 using MonoDesign.Core;
-using MonoDesign.Core.Extension;
 using MonoDesign.Engine.Extension;
 using MonoDesign.UI.Extension;
 using MonoDesign.UI.MonoGame;

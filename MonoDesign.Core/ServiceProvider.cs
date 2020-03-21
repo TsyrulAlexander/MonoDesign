@@ -3,40 +3,37 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MonoDesign.Core {
 	public class ServiceProvider : IServiceProvider {
-		private readonly ServiceCollection _services;
+		private IServiceCollection Services { get; set; } = new ServiceCollection();
 		private Microsoft.Extensions.DependencyInjection.ServiceProvider _provider;
-		public ServiceProvider() {
-			_services = new ServiceCollection();
-		}
 		public void AddSingleton<TService>(TService instance = null) where TService : class {
 			if (instance == null) {
-				_services.AddSingleton<TService>();
+				Services.AddSingleton<TService>();
 			} else {
-				_services.AddSingleton(provider => instance);
+				Services.AddSingleton(provider => instance);
 			}
 		}
 		public void AddSingleton<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
-				_services.AddSingleton<TService, TImplementation>();
+				Services.AddSingleton<TService, TImplementation>();
 			} else {
-				_services.AddSingleton<TService, TImplementation>(instance);
+				Services.AddSingleton<TService, TImplementation>(instance);
 			}
 		}
 		public void AddScoped<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
-				_services.AddScoped<TService, TImplementation>();
+				Services.AddScoped<TService, TImplementation>();
 			} else {
-				_services.AddScoped<TService, TImplementation>(instance);
+				Services.AddScoped<TService, TImplementation>(instance);
 			}
 		}
 		public void AddTransient<TService, TImplementation>(Func<IServiceProvider, TImplementation> instance = null) where TService : class
 			where TImplementation : class, TService {
 			if (instance == null) {
-				_services.AddTransient<TService, TImplementation>();
+				Services.AddTransient<TService, TImplementation>();
 			} else {
-				_services.AddTransient<TService, TImplementation>(instance);
+				Services.AddTransient<TService, TImplementation>(instance);
 			}
 		}
 
@@ -48,7 +45,7 @@ namespace MonoDesign.Core {
 		}
 		public virtual void Build() {
 			_provider?.Dispose();
-			_provider = _services.BuildServiceProvider();
+			_provider = Services.BuildServiceProvider();
 		}
 		
 	}

@@ -11,10 +11,13 @@ namespace MonoDesign.UI.Utilities {
 			var domain = AppDomain.CreateDomain(domainName);
 			try {
 				var proxyType = typeof(ProxyDomain);
-				var proxy = (ProxyDomain) domain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName,
+				var proxy = (ProxyDomain)domain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName,
 					proxyType.FullName);
 				var assembly = proxy.GetAssembly(dllPath);
-				action(assembly);
+				var scripts = proxy.LoadScripts(assembly);
+				
+			} catch (Exception ex) {
+
 			} finally {
 				AppDomain.Unload(domain);
 			}

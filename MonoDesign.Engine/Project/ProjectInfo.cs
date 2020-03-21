@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using MonoDesign.Core.Entity;
 using MonoDesign.Core.Serialization;
 using MonoDesign.Core.Utilities;
 
@@ -11,7 +9,7 @@ namespace MonoDesign.Engine.Project {
 	public class ProjectInfo : IGameSerializable {
 		public Guid Id { get; set; }
 		public string Name { get; internal set; }
-		public string Path { get; internal set; }
+		public string RootDirectory { get; internal set; }
 		public ObservableCollection<SceneLookup> Scenes { get; set; } = new ObservableCollection<SceneLookup>();
 		public void Serialize(object obj, SerializationInfo info, StreamingContext context) {
 			var item = (ProjectInfo) obj;

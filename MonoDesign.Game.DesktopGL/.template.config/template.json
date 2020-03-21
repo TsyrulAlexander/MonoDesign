@@ -2,10 +2,10 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "TsyrulAlex",
     "classifications": ["MonoGame"],
-    "identity": "CraftworkGames.MonoDesign.Desktop",
-    "name": "MonoDesign Gane Application",
-    "shortName": "monodesign",
-    "sourceName": "MonoDesign.Game",
+    "identity": "CraftworkGames.MonoDesign.Game",
+    "name": "MonoDesign Desktop Gane Application",
+    "shortName": "monodesigndesktop",
+    "sourceName": "MonoDesign.Game.DesktopGL",
     "sources": [{
         "exclude": [
             "**/.vs/**",

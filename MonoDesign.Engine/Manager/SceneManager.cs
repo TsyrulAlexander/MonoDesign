@@ -27,9 +27,8 @@ namespace MonoDesign.Engine.Manager {
 			_fileService.RemoveDirectory(sceneDirectory);
 		}
 		public string GetSceneFolder(ProjectInfo projectInfo) {
-			var directory = _fileService.GetDirectory(projectInfo.Path);
 			var sceneFolder = EngineSetting.ScenesFolder;
-			return _fileService.CombinePath(directory, sceneFolder);
+			return _fileService.CombinePath(projectInfo.RootDirectory, sceneFolder);
 		}
 		public Scene Load(ProjectInfo projectInfo, SceneLookup scene) {
 			var path = GetSceneFilePath(projectInfo, scene);

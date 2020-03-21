@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>D:\Programing\Repositories\MonoDesign\MonoDesign.Game\Lib\</OutputPath>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="MonoDesign.Core.Serialization.GameSerializableAssemblyAttribute" />
@@ -17,5 +17,8 @@
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.4" />
     <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(SolutionDir)MonoDesign.Game\Lib\$(ProjectName).dll&quot;" />
+  </Target>
 
 </Project>

@@ -18,7 +18,6 @@ namespace MonoDesign.Engine
 		private readonly ISceneManager _sceneManager;
 		private readonly IFileService _fileService;
 		private readonly IAssetManager _assetManager;
-		private readonly IProcessService _processService;
 		private Scene _currentScene;
 		private ProjectInfo _projectInfo;
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -39,12 +38,11 @@ namespace MonoDesign.Engine
 			}
 		}
 		public DesignEngine(IProjectManager projectManager, ISceneManager sceneManager,
-				IFileService fileService, IAssetManager assetManager, IProcessService processService) {
+				IFileService fileService, IAssetManager assetManager) {
 			_projectManager = projectManager;
 			_sceneManager = sceneManager;
 			_fileService = fileService;
 			_assetManager = assetManager;
-			_processService = processService;
 		}
 		public virtual void LoadProject(string path) {
 			if (_fileService.GetIsDirectory(path)) {
@@ -56,7 +54,7 @@ namespace MonoDesign.Engine
 			ProjectInfo = new ProjectInfo {
 				Id = Guid.NewGuid(),
 				Name = name,
-				Path = _fileService.CombinePath(directory, EngineSetting.ProjectInfoFileName)
+				RootDirectory = _fileService.CombinePath(directory, name)
 			};
 		}
 		public virtual void CreateScene() {
@@ -95,12 +93,11 @@ namespace MonoDesign.Engine
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		public void BuildProject() {
-			var projectDirectory = GetProjectDirectory();
-			_processService.StartProcess("cmd.exe", $"/C dotnet publish {ProjectInfo.Name}.csproj -c Debug -r win10-x64", false, projectDirectory);
+			_projectManager.BuildProject(ProjectInfo);
 		}
 		public virtual string GetProjectBuildDirectory() {
-			var projectDirectory = GetProjectDirectory();
-			return _fileService.CombinePath(projectDirectory, EngineSetting.ProjectDebugBuildFolder);
+			var projectDirectory = _projectManager.GetProjectSolutionPath(ProjectInfo);
+			return _fileService.CombinePath(projectDirectory, EngineSetting.SolutionDebugBuildFolder);
 		}
 
 		public virtual string GetProjectDllPath() {
@@ -108,8 +105,7 @@ namespace MonoDesign.Engine
 			return _fileService.CombinePath(buildDirectory, $"{ProjectInfo.Name}.dll");
 		}
 		public virtual string GetProjectDirectory() {
-			var projectPath = ProjectInfo.Path;
-			return _fileService.GetDirectory(projectPath);
+			return ProjectInfo.RootDirectory;
 		}
 	}
 }
